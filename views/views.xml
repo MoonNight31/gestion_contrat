@@ -39,6 +39,43 @@
         </field>
     </record>
 
+    <!-- Extension de la vue Entreprise pour ajouter les contrats et le compteur -->
+    <record id="view_entreprise_tree_contrat" model="ir.ui.view">
+        <field name="name">entreprise.entreprise.tree.contrat</field>
+        <field name="model">entreprise.entreprise</field>
+        <field name="inherit_id" ref="gestion_entreprise.view_entreprise_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='salarie_count']" position="after">
+                <field name="contrat_count"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_entreprise_form_contrat" model="ir.ui.view">
+        <field name="name">entreprise.entreprise.form.contrat</field>
+        <field name="model">entreprise.entreprise</field>
+        <field name="inherit_id" ref="gestion_entreprise.view_entreprise_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group/group/field[@name='salarie_count']" position="after">
+                <field name="contrat_count"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Contrats">
+                    <field name="contrat_ids">
+                        <tree>
+                            <field name="type_contrat"/>
+                            <field name="personne_etudiant_id"/>
+                            <field name="personne_tuteur_id"/>
+                            <field name="date_started"/>
+                            <field name="date_ended"/>
+                            <field name="duree_jours"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
     <!-- Contrat Views -->
     <record id="view_contrat_tree" model="ir.ui.view">
         <field name="name">contrat.contrat.tree</field>
