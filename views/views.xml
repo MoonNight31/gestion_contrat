@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <!-- Contrat Views -->
+    <record id="view_contrat_tree" model="ir.ui.view">
+        <field name="name">contrat.contrat.tree</field>
+        <field name="model">contrat.contrat</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="display_name"/>
+                <field name="type_contrat"/>
+                <field name="personne_etudiant_id"/>
+                <field name="entreprise_id"/>
+                <field name="personne_tuteur_id"/>
+                <field name="date_started"/>
+                <field name="date_ended"/>
+                <field name="duree_jours"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_contrat_form" model="ir.ui.view">
+        <field name="name">contrat.contrat.form</field>
+        <field name="model">contrat.contrat</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="type_contrat"/>
+                            <field name="personne_etudiant_id"/>
+                            <field name="formation_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="date_started"/>
+                            <field name="date_ended"/>
+                            <field name="duree_jours" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="entreprise_id"/>
+                            <field name="personne_tuteur_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_contrat" model="ir.actions.act_window">
+        <field name="name">Contrats</field>
+        <field name="res_model">contrat.contrat</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_contrat_root" 
+              name="Gestion Contrat" 
+              sequence="30" 
+              web_icon="base,static/description/icon.png"/>
+
+    <menuitem id="menu_contrat_list" 
+              name="Tous les Contrats" 
+              parent="menu_contrat_root" 
+              action="action_contrat" 
+              sequence="1"/>
+
+  </data>
+</odoo>

@@ -1,0 +1,22 @@
+# -*- coding: utf-8 -*-
+{
+    'name': "Gestion Contrat",
+    'summary': "Gestion des contrats d'alternance et de stage",
+    'description': """
+        Module de gestion des contrats
+        ================================
+        * Contrats d'alternance
+        * Contrats de stage
+        * Lien entre étudiants, entreprises et tuteurs
+    """,
+    'author': "MoonDev",
+    'version': '1.0',
+    'category': 'Human Resources',
+    'depends': ['base', 'gestion_ecole', 'groupe_entreprise'],
+    'data': [
+        'security/ir.model.access.csv',
+        'views/views.xml',
+    ],
+    'installable': True,
+    'application': True,
+}
