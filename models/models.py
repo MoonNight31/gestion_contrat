@@ -55,8 +55,16 @@ class ContratContrat(models.Model):
     display_name = fields.Char(string="Référence", compute='_compute_display_name', store=True)
     duree_jours = fields.Integer(string="Durée (jours)", compute='_compute_duree', store=True)
     formation_id = fields.Many2one('school.formation', string="Formation", 
-                                   related='personne_etudiant_id.formation_id', 
+                                   compute='_compute_formation_id', 
                                    store=True, readonly=True)
+
+    @api.depends('personne_etudiant_id')
+    def _compute_formation_id(self):
+        for record in self:
+            if record.personne_etudiant_id and record.personne_etudiant_id.formation_id:
+                record.formation_id = record.personne_etudiant_id.formation_id.id
+            else:
+                record.formation_id = False
 
     @api.depends('personne_etudiant_id', 'entreprise_id', 'type_contrat')
     def _compute_display_name(self):
