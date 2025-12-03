@@ -2,6 +2,43 @@
 <odoo>
   <data>
 
+    <!-- Extension de la vue Personne pour ajouter les contrats -->
+    <record id="view_personne_form_contrat" model="ir.ui.view">
+        <field name="name">school.personne.form.contrat</field>
+        <field name="model">school.personne</field>
+        <field name="inherit_id" ref="gestion_ecole.view_personne_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet" position="inside">
+                <notebook>
+                    <page string="Contrats (Étudiant)" attrs="{'invisible': [('type_profil', '!=', 'etudiant')]}">
+                        <field name="contrat_etudiant_ids">
+                            <tree>
+                                <field name="type_contrat"/>
+                                <field name="entreprise_id"/>
+                                <field name="personne_tuteur_id"/>
+                                <field name="date_started"/>
+                                <field name="date_ended"/>
+                                <field name="duree_jours"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Contrats (Tuteur)" attrs="{'invisible': [('type_profil', '!=', 'salarie')]}">
+                        <field name="contrat_tuteur_ids">
+                            <tree>
+                                <field name="type_contrat"/>
+                                <field name="personne_etudiant_id"/>
+                                <field name="entreprise_id"/>
+                                <field name="date_started"/>
+                                <field name="date_ended"/>
+                                <field name="duree_jours"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+
     <!-- Contrat Views -->
     <record id="view_contrat_tree" model="ir.ui.view">
         <field name="name">contrat.contrat.tree</field>

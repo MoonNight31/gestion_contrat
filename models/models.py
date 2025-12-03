@@ -3,6 +3,17 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
+# ========== EXTENSION DE SCHOOL.PERSONNE ==========
+class SchoolPersonne(models.Model):
+    _inherit = 'school.personne'
+    
+    # Relations inverses pour les contrats (ajoutées par le module gestion_contrat)
+    contrat_etudiant_ids = fields.One2many('contrat.contrat', 'personne_etudiant_id', 
+                                           string="Contrats (en tant qu'étudiant)")
+    contrat_tuteur_ids = fields.One2many('contrat.contrat', 'personne_tuteur_id', 
+                                         string="Contrats (en tant que tuteur)")
+
+
 # ========== CONTRAT (Alternance / Stage) ==========
 class ContratContrat(models.Model):
     _name = 'contrat.contrat'
@@ -36,8 +47,9 @@ class ContratContrat(models.Model):
     @api.depends('personne_etudiant_id', 'entreprise_id', 'type_contrat')
     def _compute_display_name(self):
         for record in self:
-            if record.personne_etudiant_id and record.entreprise_id:
-                record.display_name = f"{record.type_contrat.upper()} - {record.personne_etudiant_id.display_name} @ {record.entreprise_id.nom}"
+            if record.personne_etudiant_id and record.entreprise_id and record.type_contrat:
+                type_label = dict(record._fields['type_contrat'].selection).get(record.type_contrat, '')
+                record.display_name = f"{type_label.upper()} - {record.personne_etudiant_id.display_name} @ {record.entreprise_id.nom}"
             else:
                 record.display_name = "Nouveau contrat"
 
