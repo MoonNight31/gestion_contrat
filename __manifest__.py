@@ -12,7 +12,7 @@
     'author': "MoonDev",
     'version': '1.0',
     'category': 'Human Resources',
-    'depends': ['base', 'gestion_ecole', 'groupe_entreprise'],
+    'depends': ['base', 'gestion_ecole', 'gestion_entreprise'],
     'data': [
         'security/ir.model.access.csv',
         'views/views.xml',

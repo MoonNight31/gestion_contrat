@@ -10,7 +10,7 @@
         <field name="arch" type="xml">
             <xpath expr="//form/sheet" position="inside">
                 <notebook>
-                    <page string="Contrats (Étudiant)" attrs="{'invisible': [('type_profil', '!=', 'etudiant')]}">
+                    <page string="Contrats (Étudiant)" invisible="type_profil != 'etudiant'">
                         <field name="contrat_etudiant_ids">
                             <tree>
                                 <field name="type_contrat"/>
@@ -22,7 +22,7 @@
                             </tree>
                         </field>
                     </page>
-                    <page string="Contrats (Tuteur)" attrs="{'invisible': [('type_profil', '!=', 'salarie')]}">
+                    <page string="Contrats (Tuteur)" invisible="type_profil != 'salarie'">
                         <field name="contrat_tuteur_ids">
                             <tree>
                                 <field name="type_contrat"/>
@@ -67,12 +67,12 @@
                         <group>
                             <field name="type_contrat"/>
                             <field name="personne_etudiant_id"/>
-                            <field name="formation_id" readonly="1"/>
+                            <field name="formation_id" readonly="True"/>
                         </group>
                         <group>
                             <field name="date_started"/>
                             <field name="date_ended"/>
-                            <field name="duree_jours" readonly="1"/>
+                            <field name="duree_jours" readonly="True"/>
                         </group>
                     </group>
                     <group>
