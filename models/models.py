@@ -14,6 +14,20 @@ class SchoolPersonne(models.Model):
                                          string="Contrats (en tant que tuteur)")
 
 
+# ========== EXTENSION DE ENTREPRISE.ENTREPRISE ==========
+class EntrepriseEntreprise(models.Model):
+    _inherit = 'entreprise.entreprise'
+    
+    # Relations inverses pour les contrats (ajoutées par le module gestion_contrat)
+    contrat_ids = fields.One2many('contrat.contrat', 'entreprise_id', string="Contrats")
+    contrat_count = fields.Integer(string="Nombre de contrats", compute='_compute_contrat_count', store=True)
+
+    @api.depends('contrat_ids')
+    def _compute_contrat_count(self):
+        for record in self:
+            record.contrat_count = len(record.contrat_ids)
+
+
 # ========== CONTRAT (Alternance / Stage) ==========
 class ContratContrat(models.Model):
     _name = 'contrat.contrat'
