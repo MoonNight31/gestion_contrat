@@ -141,7 +141,7 @@
     <menuitem id="menu_contrat_root" 
               name="Gestion Contrat" 
               sequence="30" 
-              web_icon="base,static/description/icon.png"/>
+              web_icon="gestion_contrat,static/description/icon.png"/>
 
     <menuitem id="menu_contrat_list" 
               name="Tous les Contrats" 
