@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Contrats d'Alternance -->
+        <record id="demo_contrat_alice_digisolutions" model="contrat.contrat">
+            <field name="type_contrat">alternance</field>
+            <field name="personne_etudiant_id" ref="gestion_ecole.demo_etudiant_alice"/>
+            <field name="entreprise_id" ref="gestion_entreprise.demo_entreprise_digisolutions"/>
+            <field name="personne_tuteur_id" ref="gestion_entreprise.demo_salarie_thomas"/>
+            <field name="date_started" eval="(DateTime.today() - timedelta(days=365)).strftime('%Y-%m-%d')"/>
+            <field name="date_ended" eval="(DateTime.today() - timedelta(days=30)).strftime('%Y-%m-%d')"/>
+        </record>
+
+        <record id="demo_contrat_bob_innovtech" model="contrat.contrat">
+            <field name="type_contrat">alternance</field>
+            <field name="personne_etudiant_id" ref="gestion_ecole.demo_etudiant_bob"/>
+            <field name="entreprise_id" ref="gestion_entreprise.demo_entreprise_innovtech"/>
+            <field name="personne_tuteur_id" ref="gestion_entreprise.demo_salarie_julie"/>
+            <field name="date_started" eval="(DateTime.today() - timedelta(days=180)).strftime('%Y-%m-%d')"/>
+            <field name="date_ended" eval="(DateTime.today() + timedelta(days=185)).strftime('%Y-%m-%d')"/>
+        </record>
+
+        <record id="demo_contrat_claire_consulting" model="contrat.contrat">
+            <field name="type_contrat">alternance</field>
+            <field name="personne_etudiant_id" ref="gestion_ecole.demo_etudiant_claire"/>
+            <field name="entreprise_id" ref="gestion_entreprise.demo_entreprise_consulting_pro"/>
+            <field name="personne_tuteur_id" ref="gestion_entreprise.demo_salarie_pierre"/>
+            <field name="date_started" eval="(DateTime.today() - timedelta(days=90)).strftime('%Y-%m-%d')"/>
+            <field name="date_ended" eval="(DateTime.today() + timedelta(days=275)).strftime('%Y-%m-%d')"/>
+        </record>
+
+        <record id="demo_contrat_daniel_webfactory" model="contrat.contrat">
+            <field name="type_contrat">alternance</field>
+            <field name="personne_etudiant_id" ref="gestion_ecole.demo_etudiant_daniel"/>
+            <field name="entreprise_id" ref="gestion_entreprise.demo_entreprise_webfactory"/>
+            <field name="personne_tuteur_id" ref="gestion_entreprise.demo_salarie_laura"/>
+            <field name="date_started" eval="(DateTime.today() - timedelta(days=200)).strftime('%Y-%m-%d')"/>
+            <field name="date_ended" eval="(DateTime.today() + timedelta(days=165)).strftime('%Y-%m-%d')"/>
+        </record>
+
+        <record id="demo_contrat_elise_digisolutions" model="contrat.contrat">
+            <field name="type_contrat">alternance</field>
+            <field name="personne_etudiant_id" ref="gestion_ecole.demo_etudiant_elise"/>
+            <field name="entreprise_id" ref="gestion_entreprise.demo_entreprise_digisolutions"/>
+            <field name="personne_tuteur_id" ref="gestion_entreprise.demo_salarie_sophie"/>
+            <field name="date_started" eval="(DateTime.today() - timedelta(days=120)).strftime('%Y-%m-%d')"/>
+            <field name="date_ended" eval="(DateTime.today() + timedelta(days=245)).strftime('%Y-%m-%d')"/>
+        </record>
+
+        <record id="demo_contrat_felix_innovtech" model="contrat.contrat">
+            <field name="type_contrat">alternance</field>
+            <field name="personne_etudiant_id" ref="gestion_ecole.demo_etudiant_felix"/>
+            <field name="entreprise_id" ref="gestion_entreprise.demo_entreprise_innovtech"/>
+            <field name="personne_tuteur_id" ref="gestion_entreprise.demo_salarie_julie"/>
+            <field name="date_started" eval="(DateTime.today() - timedelta(days=250)).strftime('%Y-%m-%d')"/>
+            <field name="date_ended" eval="(DateTime.today() + timedelta(days=115)).strftime('%Y-%m-%d')"/>
+        </record>
+
+        <record id="demo_contrat_hugo_consulting" model="contrat.contrat">
+            <field name="type_contrat">alternance</field>
+            <field name="personne_etudiant_id" ref="gestion_ecole.demo_etudiant_hugo"/>
+            <field name="entreprise_id" ref="gestion_entreprise.demo_entreprise_consulting_pro"/>
+            <field name="personne_tuteur_id" ref="gestion_entreprise.demo_salarie_pierre"/>
+            <field name="date_started" eval="(DateTime.today() - timedelta(days=150)).strftime('%Y-%m-%d')"/>
+            <field name="date_ended" eval="(DateTime.today() + timedelta(days=215)).strftime('%Y-%m-%d')"/>
+        </record>
+
+        <!-- Contrats de Stage -->
+        <record id="demo_contrat_stage_alice" model="contrat.contrat">
+            <field name="type_contrat">stage</field>
+            <field name="personne_etudiant_id" ref="gestion_ecole.demo_etudiant_alice"/>
+            <field name="entreprise_id" ref="gestion_entreprise.demo_entreprise_webfactory"/>
+            <field name="personne_tuteur_id" ref="gestion_entreprise.demo_salarie_laura"/>
+            <field name="date_started" eval="(DateTime.today() + timedelta(days=30)).strftime('%Y-%m-%d')"/>
+            <field name="date_ended" eval="(DateTime.today() + timedelta(days=120)).strftime('%Y-%m-%d')"/>
+        </record>
+
+        <record id="demo_contrat_stage_gabrielle" model="contrat.contrat">
+            <field name="type_contrat">stage</field>
+            <field name="personne_etudiant_id" ref="gestion_ecole.demo_etudiant_gabrielle"/>
+            <field name="entreprise_id" ref="gestion_entreprise.demo_entreprise_digisolutions"/>
+            <field name="personne_tuteur_id" ref="gestion_entreprise.demo_salarie_thomas"/>
+            <field name="date_started" eval="(DateTime.today() - timedelta(days=30)).strftime('%Y-%m-%d')"/>
+            <field name="date_ended" eval="(DateTime.today() + timedelta(days=60)).strftime('%Y-%m-%d')"/>
+        </record>
+
+        <record id="demo_contrat_stage_isabelle" model="contrat.contrat">
+            <field name="type_contrat">stage</field>
+            <field name="personne_etudiant_id" ref="gestion_ecole.demo_etudiant_isabelle"/>
+            <field name="entreprise_id" ref="gestion_entreprise.demo_entreprise_innovtech"/>
+            <field name="personne_tuteur_id" ref="gestion_entreprise.demo_salarie_julie"/>
+            <field name="date_started" eval="(DateTime.today() + timedelta(days=60)).strftime('%Y-%m-%d')"/>
+            <field name="date_ended" eval="(DateTime.today() + timedelta(days=150)).strftime('%Y-%m-%d')"/>
+        </record>
+
+    </data>
+</odoo>
