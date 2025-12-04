@@ -1,101 +1,87 @@
 # Module Gestion Contrat
 
-Module Odoo pour la gestion des contrats d'alternance et de stage.
+Module Odoo 17 pour la gestion des contrats d'alternance et de stage avec validation métier.
 
-## Description
+## 🎯 Fonctionnalités
 
-Ce module permet de gérer les contrats entre étudiants et entreprises, avec un suivi des tuteurs en entreprise. Il prend en charge deux types de contrats :
-- **Alternance**
-- **Stage**
+- **Contrats d'Alternance** : Gestion des contrats pro et apprentissage
+- **Contrats de Stage** : Suivi des conventions de stage
+- **Liaison Étudiant-Entreprise-Tuteur** : Relations validées
+- **Calcul automatique** : Durée, formation associée
+- **Validations métier** : Contraintes sur dates et cohérence des acteurs
 
-## Dépendances
+## 📋 Architecture
 
-- `base` : Module de base Odoo
-- `gestion_ecole` : Module de gestion de l'école (étudiants, formations)
-- `groupe_entreprise` : Module de gestion des entreprises et salariés
+### Extension de `res.partner`
+- `contrat_etudiant_ids` : One2many - Contrats en tant qu'étudiant
+- `contrat_tuteur_ids` : One2many - Contrats en tant que tuteur
+- `contrat_entreprise_ids` : One2many - Contrats de l'entreprise
+- `contrat_count` : Integer calculé (pour les entreprises)
 
-## Fonctionnalités
+### Modèle `contrat.contrat`
 
-### Modèle principal : Contrat
+**Champs principaux :**
+- `type_contrat` : Selection (alternance, stage)
+- `date_started` : Date de début (obligatoire)
+- `date_ended` : Date de fin (obligatoire)
+- `personne_etudiant_id` : Many2one vers res.partner (type_profil='etudiant')
+- `entreprise_id` : Many2one vers res.partner (is_company=True)
+- `personne_tuteur_id` : Many2one vers res.partner (type_profil='salarie')
 
-Le modèle `contrat.contrat` gère les informations suivantes :
+**Champs calculés :**
+- `display_name` : "TYPE - Étudiant @ Entreprise"
+- `duree_jours` : Nombre de jours entre début et fin
+- `formation_id` : Formation de l'étudiant (auto-rempli)
 
-- **Type de contrat** : Alternance ou Stage
-- **Dates** : Date de début et de fin avec calcul automatique de la durée
-- **Parties prenantes** :
-  - Étudiant (lié au module gestion_ecole)
-  - Entreprise d'accueil (liée au module groupe_entreprise)
-  - Tuteur en entreprise (salarié de l'entreprise)
-- **Formation** : Récupération automatique de la formation de l'étudiant
+## ✅ Validations métier
 
-### Extension du modèle Personne
-
-Le module étend `school.personne` pour ajouter :
-- Liste des contrats pour les étudiants
-- Liste des contrats supervisés pour les tuteurs
-
-### Validations
-
-- La date de fin doit être postérieure à la date de début
-- Le tuteur doit être un salarié de l'entreprise d'accueil
-- Les domaines limitent les choix :
-  - Étudiant : uniquement les personnes de type "étudiant"
-  - Tuteur : uniquement les personnes de type "salarié"
-
-## Installation
-
-1. Copier le module dans le répertoire `addons` d'Odoo
-2. Mettre à jour la liste des applications
-3. Installer le module "Gestion Contrat"
-
-## Utilisation
-
-### Créer un contrat
-
-1. Aller dans le menu **Gestion Contrat > Tous les Contrats**
-2. Cliquer sur **Créer**
-3. Remplir les informations :
-   - Type de contrat
-   - Étudiant
-   - Dates de début et de fin
-   - Entreprise d'accueil
-   - Tuteur en entreprise
-4. Sauvegarder
-
-### Consulter les contrats d'un étudiant
-
-1. Aller dans la fiche d'une personne de type "Étudiant"
-2. Consulter l'onglet **Contrats (Étudiant)**
-
-### Consulter les contrats supervisés par un tuteur
-
-1. Aller dans la fiche d'une personne de type "Salarié"
-2. Consulter l'onglet **Contrats (Tuteur)**
-
-## Structure du module
-
+### Contrainte `_check_dates`
+```python
+date_ended > date_started
 ```
-gestion_contrat/
-├── __init__.py
-├── __manifest__.py
-├── README.md
-├── models/
-│   ├── __init__.py
-│   └── models.py
-├── security/
-│   └── ir.model.access.csv
-└── views/
-    └── views.xml
+La date de fin doit être strictement postérieure à la date de début.
+
+### Contrainte `_check_tuteur_entreprise`
+```python
+personne_tuteur_id.employer_partner_id == entreprise_id
 ```
+Le tuteur doit être un salarié de l'entreprise d'accueil du contrat.
 
-## Auteur
+## 🎨 Extensions de vues
 
-**MoonDev**
+### Vue Étudiant
+- Onglet "Contrats" avec la liste des contrats de l'étudiant
 
-## Version
+### Vue Salarié
+- Onglet "Contrats de Tutorat" avec les contrats encadrés
 
-1.0
+### Vue Entreprise
+- Champ `contrat_count` dans les vues tree et form
+- Onglet "Contrats" avec tous les contrats de l'entreprise
 
-## Catégorie
+## 📦 Installation
 
-Human Resources
+1. **Prérequis obligatoires** :
+   - Module `gestion_ecole` installé
+   - Module `gestion_entreprise` installé
+2. Placer le module dans le dossier addons
+3. Redémarrer Odoo : `sudo systemctl restart odoo`
+4. Installer "Gestion Contrat"
+
+## 🔗 Dépendances
+
+- `base` (module natif Odoo)
+- `gestion_ecole` (module personnalisé)
+- `gestion_entreprise` (module personnalisé)
+
+## 📊 Utilisation
+
+1. Créer un étudiant dans "Gestion École → Étudiants"
+2. Créer une entreprise dans "Gestion Entreprise → Contacts Entreprise"
+3. Créer un salarié (tuteur) rattaché à cette entreprise
+4. Créer un contrat dans "Gestion Contrat → Tous les Contrats"
+5. Le système vérifiera automatiquement la cohérence des données
+
+## 👨‍💻 Auteur
+
+MoonDev - 2025
