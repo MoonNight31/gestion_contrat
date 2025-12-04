@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': "Gestion Contrat",
+    'icon': '/base/static/description/contrat.png',
     'summary': "Gestion des contrats d'alternance et de stage",
     'description': """
         Module de gestion des contrats
