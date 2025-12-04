@@ -3,29 +3,29 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
-# ========== EXTENSION DE SCHOOL.PERSONNE ==========
-class SchoolPersonne(models.Model):
-    _inherit = 'school.personne'
+# ========== EXTENSION DE RES.PARTNER ==========
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
     
     # Relations inverses pour les contrats (ajoutées par le module gestion_contrat)
     contrat_etudiant_ids = fields.One2many('contrat.contrat', 'personne_etudiant_id', 
-                                           string="Contrats (en tant qu'étudiant)")
+                                           string="Contrats (en tant qu'étudiant)",
+                                           domain=[('type_personne', '=', 'etudiant')])
     contrat_tuteur_ids = fields.One2many('contrat.contrat', 'personne_tuteur_id', 
-                                         string="Contrats (en tant que tuteur)")
-
-
-# ========== EXTENSION DE ENTREPRISE.ENTREPRISE ==========
-class EntrepriseEntreprise(models.Model):
-    _inherit = 'entreprise.entreprise'
-    
-    # Relations inverses pour les contrats (ajoutées par le module gestion_contrat)
-    contrat_ids = fields.One2many('contrat.contrat', 'entreprise_id', string="Contrats")
+                                         string="Contrats (en tant que tuteur)",
+                                         domain=[('type_personne', '=', 'salarie')])
+    contrat_entreprise_ids = fields.One2many('contrat.contrat', 'entreprise_id', 
+                                            string="Contrats",
+                                            domain=[('is_company', '=', True)])
     contrat_count = fields.Integer(string="Nombre de contrats", compute='_compute_contrat_count', store=True)
 
-    @api.depends('contrat_ids')
+    @api.depends('contrat_entreprise_ids')
     def _compute_contrat_count(self):
         for record in self:
-            record.contrat_count = len(record.contrat_ids)
+            if record.is_company:
+                record.contrat_count = len(record.contrat_entreprise_ids)
+            else:
+                record.contrat_count = 0
 
 
 # ========== CONTRAT (Alternance / Stage) ==========
@@ -43,12 +43,14 @@ class ContratContrat(models.Model):
     ], string="Type de contrat", required=True, default='alternance')
     
     # Relations : Étudiant, Entreprise, Tuteur
-    personne_etudiant_id = fields.Many2one('school.personne', string="Étudiant", 
-                                           domain=[('type_profil', '=', 'etudiant')], 
+    personne_etudiant_id = fields.Many2one('res.partner', string="Étudiant", 
+                                           domain=[('type_personne', '=', 'etudiant'), ('is_company', '=', False)], 
                                            required=True)
-    entreprise_id = fields.Many2one('entreprise.entreprise', string="Entreprise d'accueil", required=True)
-    personne_tuteur_id = fields.Many2one('school.personne', string="Tuteur en entreprise", 
-                                         domain=[('type_profil', '=', 'salarie')],
+    entreprise_id = fields.Many2one('res.partner', string="Entreprise d'accueil", 
+                                    domain=[('is_company', '=', True)],
+                                    required=True)
+    personne_tuteur_id = fields.Many2one('res.partner', string="Tuteur en entreprise", 
+                                         domain=[('type_personne', '=', 'salarie'), ('is_company', '=', False)],
                                          required=True)
     
     # Champs calculés et affichage
@@ -71,7 +73,7 @@ class ContratContrat(models.Model):
         for record in self:
             if record.personne_etudiant_id and record.entreprise_id and record.type_contrat:
                 type_label = dict(record._fields['type_contrat'].selection).get(record.type_contrat, '')
-                record.display_name = f"{type_label.upper()} - {record.personne_etudiant_id.display_name} @ {record.entreprise_id.nom}"
+                record.display_name = f"{type_label.upper()} - {record.personne_etudiant_id.name} @ {record.entreprise_id.name}"
             else:
                 record.display_name = "Nouveau contrat"
 
@@ -95,5 +97,5 @@ class ContratContrat(models.Model):
     def _check_tuteur_entreprise(self):
         for record in self:
             if record.personne_tuteur_id and record.entreprise_id:
-                if record.personne_tuteur_id.entreprise_id != record.entreprise_id:
+                if record.personne_tuteur_id.employer_partner_id != record.entreprise_id:
                     raise ValidationError("Le tuteur doit être un salarié de l'entreprise d'accueil.")

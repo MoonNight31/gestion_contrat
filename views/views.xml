@@ -2,66 +2,75 @@
 <odoo>
   <data>
 
-    <!-- Extension de la vue Personne pour ajouter les contrats -->
-    <record id="view_personne_form_contrat" model="ir.ui.view">
-        <field name="name">school.personne.form.contrat</field>
-        <field name="model">school.personne</field>
-        <field name="inherit_id" ref="gestion_ecole.view_personne_form"/>
+    <!-- Extension de la vue Étudiant pour ajouter les contrats -->
+    <record id="view_etudiant_form_contrat" model="ir.ui.view">
+        <field name="name">res.partner.form.etudiant.contrat</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="gestion_ecole.view_etudiant_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//form/sheet" position="inside">
-                <notebook>
-                    <page string="Contrats (Étudiant)" invisible="type_profil != 'etudiant'">
-                        <field name="contrat_etudiant_ids">
-                            <tree>
-                                <field name="type_contrat"/>
-                                <field name="entreprise_id"/>
-                                <field name="personne_tuteur_id"/>
-                                <field name="date_started"/>
-                                <field name="date_ended"/>
-                                <field name="duree_jours"/>
-                            </tree>
-                        </field>
-                    </page>
-                    <page string="Contrats (Tuteur)" invisible="type_profil != 'salarie'">
-                        <field name="contrat_tuteur_ids">
-                            <tree>
-                                <field name="type_contrat"/>
-                                <field name="personne_etudiant_id"/>
-                                <field name="entreprise_id"/>
-                                <field name="date_started"/>
-                                <field name="date_ended"/>
-                                <field name="duree_jours"/>
-                            </tree>
-                        </field>
-                    </page>
-                </notebook>
+            <xpath expr="//notebook" position="inside">
+                <page string="Contrats">
+                    <field name="contrat_etudiant_ids">
+                        <tree>
+                            <field name="type_contrat"/>
+                            <field name="entreprise_id"/>
+                            <field name="personne_tuteur_id"/>
+                            <field name="date_started"/>
+                            <field name="date_ended"/>
+                            <field name="duree_jours"/>
+                        </tree>
+                    </field>
+                </page>
             </xpath>
         </field>
     </record>
 
-    <!-- Extension de la vue Entreprise pour ajouter les contrats et le compteur -->
+    <!-- Extension de la vue Salarié pour ajouter les contrats de tutorat -->
+    <record id="view_salarie_form_contrat" model="ir.ui.view">
+        <field name="name">res.partner.form.salarie.contrat</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="gestion_entreprise.view_salarie_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Contrats de Tutorat">
+                    <field name="contrat_tuteur_ids">
+                        <tree>
+                            <field name="type_contrat"/>
+                            <field name="personne_etudiant_id"/>
+                            <field name="entreprise_id"/>
+                            <field name="date_started"/>
+                            <field name="date_ended"/>
+                            <field name="duree_jours"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extension de la vue Contact Entreprise pour ajouter les contrats et le compteur -->
     <record id="view_entreprise_tree_contrat" model="ir.ui.view">
-        <field name="name">entreprise.entreprise.tree.contrat</field>
-        <field name="model">entreprise.entreprise</field>
+        <field name="name">res.partner.tree.entreprise.contrat</field>
+        <field name="model">res.partner</field>
         <field name="inherit_id" ref="gestion_entreprise.view_entreprise_tree"/>
         <field name="arch" type="xml">
-            <xpath expr="//tree/field[@name='salarie_count']" position="after">
+            <xpath expr="//tree/field[@name='employee_ids']" position="after">
                 <field name="contrat_count"/>
             </xpath>
         </field>
     </record>
 
     <record id="view_entreprise_form_contrat" model="ir.ui.view">
-        <field name="name">entreprise.entreprise.form.contrat</field>
-        <field name="model">entreprise.entreprise</field>
+        <field name="name">res.partner.form.entreprise.contrat</field>
+        <field name="model">res.partner</field>
         <field name="inherit_id" ref="gestion_entreprise.view_entreprise_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//group/group/field[@name='salarie_count']" position="after">
+            <xpath expr="//group[@name='entreprise_info']/field[@name='employee_ids']" position="after">
                 <field name="contrat_count"/>
             </xpath>
             <xpath expr="//notebook" position="inside">
                 <page string="Contrats">
-                    <field name="contrat_ids">
+                    <field name="contrat_entreprise_ids">
                         <tree>
                             <field name="type_contrat"/>
                             <field name="personne_etudiant_id"/>
