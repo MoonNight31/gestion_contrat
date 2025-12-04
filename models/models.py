@@ -9,14 +9,11 @@ class ResPartner(models.Model):
     
     # Relations inverses pour les contrats (ajoutées par le module gestion_contrat)
     contrat_etudiant_ids = fields.One2many('contrat.contrat', 'personne_etudiant_id', 
-                                           string="Contrats (en tant qu'étudiant)",
-                                           domain=[('type_profil', '=', 'etudiant')])
+                                           string="Contrats (en tant qu'étudiant)")
     contrat_tuteur_ids = fields.One2many('contrat.contrat', 'personne_tuteur_id', 
-                                         string="Contrats (en tant que tuteur)",
-                                         domain=[('type_profil', '=', 'salarie')])
+                                         string="Contrats (en tant que tuteur)")
     contrat_entreprise_ids = fields.One2many('contrat.contrat', 'entreprise_id', 
-                                            string="Contrats",
-                                            domain=[('is_company', '=', True)])
+                                            string="Contrats")
     contrat_count = fields.Integer(string="Nombre de contrats", compute='_compute_contrat_count', store=True)
 
     @api.depends('contrat_entreprise_ids')
