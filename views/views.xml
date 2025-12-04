@@ -54,7 +54,7 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="gestion_entreprise.view_entreprise_tree"/>
         <field name="arch" type="xml">
-            <xpath expr="//tree/field[@name='employee_ids']" position="after">
+            <xpath expr="//tree/field[@name='salarie_count']" position="after">
                 <field name="contrat_count"/>
             </xpath>
         </field>
@@ -65,7 +65,7 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="gestion_entreprise.view_entreprise_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//group[@name='entreprise_info']/field[@name='employee_ids']" position="after">
+            <xpath expr="//group/field[@name='salarie_count']" position="after">
                 <field name="contrat_count"/>
             </xpath>
             <xpath expr="//notebook" position="inside">
