@@ -2,6 +2,7 @@
 {
     'name': "Gestion Contrat",
     'icon': '/gestion_contrat/static/description/icon.png',
+    'web_icon': 'gestion_contrat/static/description/icon.png',
     'summary': "Gestion des contrats d'alternance et de stage",
     'description': """
         Module de gestion des contrats
