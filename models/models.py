@@ -10,10 +10,10 @@ class ResPartner(models.Model):
     # Relations inverses pour les contrats (ajoutées par le module gestion_contrat)
     contrat_etudiant_ids = fields.One2many('contrat.contrat', 'personne_etudiant_id', 
                                            string="Contrats (en tant qu'étudiant)",
-                                           domain=[('type_personne', '=', 'etudiant')])
+                                           domain=[('type_profil', '=', 'etudiant')])
     contrat_tuteur_ids = fields.One2many('contrat.contrat', 'personne_tuteur_id', 
                                          string="Contrats (en tant que tuteur)",
-                                         domain=[('type_personne', '=', 'salarie')])
+                                         domain=[('type_profil', '=', 'salarie')])
     contrat_entreprise_ids = fields.One2many('contrat.contrat', 'entreprise_id', 
                                             string="Contrats",
                                             domain=[('is_company', '=', True)])
@@ -44,13 +44,13 @@ class ContratContrat(models.Model):
     
     # Relations : Étudiant, Entreprise, Tuteur
     personne_etudiant_id = fields.Many2one('res.partner', string="Étudiant", 
-                                           domain=[('type_personne', '=', 'etudiant'), ('is_company', '=', False)], 
+                                           domain=[('type_profil', '=', 'etudiant'), ('is_company', '=', False)], 
                                            required=True)
     entreprise_id = fields.Many2one('res.partner', string="Entreprise d'accueil", 
                                     domain=[('is_company', '=', True)],
                                     required=True)
     personne_tuteur_id = fields.Many2one('res.partner', string="Tuteur en entreprise", 
-                                         domain=[('type_personne', '=', 'salarie'), ('is_company', '=', False)],
+                                         domain=[('type_profil', '=', 'salarie'), ('is_company', '=', False)],
                                          required=True)
     
     # Champs calculés et affichage
